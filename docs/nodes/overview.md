@@ -1,5 +1,6 @@
 ---
 sidebar_label: Overview
+description: An overview on how to participate in the Celestia network.
 ---
 
 # Overview to running nodes on Celestia
@@ -12,7 +13,7 @@ Consensus:
 
 * [Validator Node](./validator-node.md): This type of node participates
 in consensus by producing and voting on blocks.
-* [Consensus Full Node](./consensus-full-node.md): A `celestia-app` Full Node
+* [Full Consensus Node](./full-consensus-node.md): A `celestia-app` Full Node
   to sync blockchain history.
 
 Data Availability:

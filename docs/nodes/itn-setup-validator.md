@@ -1,3 +1,8 @@
+---
+sidebar_label: Setup Your Validator
+description: Instructions for setting up your own validator.
+---
+
 # Setup Your Validator
 
 ## Description
@@ -39,7 +44,7 @@ This task is for you to setup your own validator.
   bridge node and make sure to add
   `--metrics.tls=false --metrics --metrics.endpoint otel.celestia.tools:4318`
   to your bridge node's start command.
-7. How to find your bridge Node ID is found [here](../developers/node-gateway-docs.mdx/#post-p2pinfo).
+7. How to find your bridge Node ID is found [here](../../developers/node-tutorial/#get-your-node-id).
 
 ## Judging Criteria
 

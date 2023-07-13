@@ -1,3 +1,8 @@
+---
+sidebar_label: Deploy a bridge node
+description: Instructions for deploying a Celestia Bridge Node.
+---
+
 # Deploy a bridge node
 
 ## Description
@@ -7,12 +12,12 @@ Sampling (DAS).
 
 You can find resources on doing this by following the
 tutorial [here](../../nodes/bridge-node)
-and [here](../../developers/node-tutorial#submit-a-pfd-transaction).
+and [here](../../developers/node-tutorial#submit-a-pfb-transaction).
 
 For an RPC endpoint, you as a Bridge Node Operator must run your own
-Consensus Full Node and connect your Bridge Node to it.
+Full Consensus Node and connect your Bridge Node to it.
 
-The docs for that are found [here](https://docs.celestia.org/nodes/consensus-full-node).
+The docs for that are found [here](https://docs.celestia.org/nodes/full-consensus-node).
 
 :::tip
 If you encounter errors, please visit the [upgrading your binary](../nodes/celestia-node.mdx#upgrading-your-binary)
@@ -60,7 +65,7 @@ To learn more, visit the
 
 1. Setup Your Celestia Bridge Node
 2. How to find your bridge Node ID is found
-  [here](https://docs.celestia.org/developers/node-gateway-docs/#post-p2pinfo)
+  [here](../../developers/node-tutorial/#get-your-node-id)
 3. Make sure that the wallet address the node uses is funded
 4. The keys directory under `.celestia-bridge-blockspacerace-0/keys`
   contains your `pubkey` for both DA and Tendermint networks. In

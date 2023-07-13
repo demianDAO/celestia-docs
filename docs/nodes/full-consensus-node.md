@@ -1,27 +1,28 @@
 ---
-sidebar_label: Consensus full node
+sidebar_label: Full consensus node
+description: Learn how to set up a Celestia full consensus node.
 ---
 
-# Setting up a Celestia consensus full node
+# Setting up a Celestia full consensus node
 
 <!-- markdownlint-disable MD013 -->
 
-Consensus Full Nodes allow you to sync blockchain history in the Celestia
+Full Consensus Nodes allow you to sync blockchain history in the Celestia
 Consensus Layer.
 
-![Consensus Full Node](../../static/img/nodes/consensus-full-node.png)
+![Full Consensus Node](../../static/img/nodes/full-consensus-node.png)
 
 ## Hardware requirements
 
 The following hardware minimum requirements are recommended for running the
-Consensus Full Node:
+Full Consensus Nodes:
 
 * Memory: **8 GB RAM**
 * CPU: **Quad-Core**
 * Disk: **250 GB SSD Storage**
 * Bandwidth: **1 Gbps for Download/1 Gbps for Upload**
 
-## Setting up a consensus full node
+## Setting up a full consensus node
 
 The following tutorial is done on an Ubuntu Linux 20.04 (LTS) x64
 instance machine.
@@ -52,11 +53,11 @@ import TabItem from '@theme/TabItem';
 <TabItem value="mocha" label="Mocha">
 
 To initialize the network pick a "node-name" that describes your
-node. The --chain-id parameter we are using here is `mocha`. Keep in
+node. The --chain-id parameter we are using here is `mocha-3`. Keep in
 mind that this might change if a new testnet is deployed.
 
 ```sh
-celestia-appd init "node-name" --chain-id mocha
+celestia-appd init "node-name" --chain-id mocha-3
 ```
 
 Copy the `genesis.json` file. For mocha we are using:
@@ -186,7 +187,7 @@ cd $HOME
 rm -rf ~/.celestia-app/data
 mkdir -p ~/.celestia-app/data
 SNAP_NAME=$(curl -s https://snaps.qubelabs.io/celestia/ | \
-    egrep -o ">mocha.*tar" | tr -d ">")
+    egrep -o ">mocha-3.*tar" | tr -d ">")
 wget -O - https://snaps.qubelabs.io/celestia/${SNAP_NAME} | tar xf - \
     -C ~/.celestia-app/data/
 ```
@@ -212,7 +213,7 @@ wget -O - https://snaps.qubelabs.io/celestia/${SNAP_NAME} | tar xf - \
 
 ### Start the celestia-app
 
-In order to start your consensus full node, run the following:
+In order to start your full consensus node, run the following:
 
 ```sh
 celestia-appd start
@@ -228,7 +229,7 @@ which ports are required to be open on your machine.
 
 ### Optional: configure for RPC endpoint
 
-You can configure your Consensus Full Node to be a public RPC endpoint
+You can configure your Full Consensus Node to be a public RPC endpoint
 and listen to any connections from Data Availability Nodes in order to
 serve requests for the Data Availability API [here](../developers/node-tutorial.mdx).
 

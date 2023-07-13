@@ -27,7 +27,12 @@ const config = {
     {
       src: 'https://plausible.celestia.org/js/plausible.js',
       defer: true,
-      'data-domain': 'celestia.wiki'
+      'data-domain': 'docs.celestia.org'
+    },
+    {
+      src: 'https://www.chatbase.co/embed.min.js',
+      id: 'oeduJpy4UAtpDuOQcCuVM',
+      defer: true
     }
   ],
   stylesheets: [
@@ -116,6 +121,19 @@ const config = {
         contextualSearch: true,
         debug: false
       },
+      injectHtmlTags: {
+        headTags: [],
+        bodyTags: [
+          {
+            tagName: 'script',
+            innerHTML: `
+              window.chatbaseConfig = {
+                chatbotId: "oeduJpy4UAtpDuOQcCuVM",
+              }
+            `
+          }
+        ]
+      },
       navbar: {
         logo: {
           alt: 'Celestia wiki文档',
@@ -197,6 +215,10 @@ const config = {
               {
                 label: 'Website',
                 href: 'https://celestia.wiki/'
+              },
+              {
+                label: 'Network upgrades channel',
+                href: 'https://t.me/+smSFIA7XXLU4MjJh/'
               }
             ]
           }

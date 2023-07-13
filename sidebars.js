@@ -16,11 +16,6 @@ const sidebars = {
       items: [
         {
           type: "doc",
-          label: "Blockspace race",
-          id: "nodes/blockspace-race"
-        },
-        {
-          type: "doc",
           label: "Arabica devnet",
           id: "nodes/arabica-devnet"
         },
@@ -28,7 +23,7 @@ const sidebars = {
           type: "doc",
           label: "Mocha testnet",
           id: "nodes/mocha-testnet"
-        }
+        },
       ]
     },
     {
@@ -40,7 +35,12 @@ const sidebars = {
       },
       collapsed: false,
       items: [
-         {
+        {
+          type: "doc",
+          label: "Deciding which node to run",
+          id: "nodes/decide-node"
+        },
+        {
           type: "doc",
           label: "Docker images",
           id: "nodes/docker-images",
@@ -62,8 +62,8 @@ const sidebars = {
         },
         {
           type: "doc",
-          label: "Deciding which node to run",
-          id: "nodes/decide-node"
+          label: "Node video tutorials",
+          id: "developers/light-node-video"
         },
       ]
     },
@@ -127,7 +127,7 @@ const sidebars = {
                 link: {
                   type: 'generated-index'
                 },
-                collapsed: false,
+                collapsed: true,
                 items: [
                     {
                       type: "doc",
@@ -165,8 +165,8 @@ const sidebars = {
           },
           { 
             type: "doc", 
-            label: "Consensus full node", 
-            id: "nodes/consensus-full-node" 
+            label: "Full consensus node", 
+            id: "nodes/full-consensus-node" 
           },
           { 
             type: "doc", 
@@ -202,6 +202,11 @@ const sidebars = {
               type: "doc",
               label: "Config.toml guide",
               id: "nodes/config-toml"
+            },
+            {
+              type: "doc",
+              label: "Troubleshooting",
+              id: "nodes/celestia-node-troubleshooting"
             },
           ]
         },
@@ -273,9 +278,20 @@ const sidebars = {
           id: "developers/keplr" 
         },
         {
-          type: "doc",
+          type: "category",
           label: "Wallet with Celestia App",
-          id: "developers/celestia-app-wallet"
+          link: {
+            type: "doc",
+            id: "developers/celestia-app-wallet"
+          },
+          collapsed: false,
+          items: [
+            {
+              type: "doc",
+              label: "Create a vesting account",
+              id: "developers/celestia-app-vesting"
+            },
+          ]
         },
         {
           type: "doc",
@@ -288,10 +304,21 @@ const sidebars = {
       type: "category",
       label: "Node API",
       link: {
-        type: "generated-index",
+        type: "doc",
+        id: "developers/node-api"
       },
       collapsed: false,
       items: [
+        { 
+          type: "doc", 
+          label: "Node API tutorial", 
+          id: "developers/node-tutorial" 
+        },
+        {
+          type: "link",
+          label: "Node API docs",
+          href: "https://node-rpc-docs.celestia.org/"
+        },
         {
           type: "category",
           label: "Gateway API",
@@ -300,16 +327,6 @@ const sidebars = {
           },
           collapsed: false,
           items: [
-            { 
-              type: "doc", 
-              label: "Gateway API tutorial", 
-              id: "developers/node-tutorial" 
-            },
-            {
-              type: "doc",
-              label: "Gateway API docs",
-              id: "developers/node-gateway-docs"
-            },
             {
               type: "doc",
               label: "Prompt scavenger",
@@ -317,42 +334,132 @@ const sidebars = {
             },
           ]
         },
-        {
-          type: "category",
-          label: "RPC API",
-          link: {
-            type: "generated-index",
-          },
-          collapsed: false,
-          items: [
-            { 
-              type: "doc", 
-              label: "RPC API tutorial", 
-              id: "developers/rpc-tutorial" 
-            },
-            {
-              type: "link",
-              label: "RPC API docs",
-              href: "https://node-rpc-docs.celestia.org/"
-            },
-          ]
-        },
-        // {
-        //   type: "doc",
-        //   label: "Node video tutorial",
-        //   id: "developers/light-node-video"
-        // },
       ]
     },
     {
-      type: "doc",
-      label: "Rollkit",
-      id: "developers/rollkit"
+      type: "category",
+      label: "Deploy a Rollup",
+			link: {
+				type: "generated-index",
+			},
+			collapsed: false,
+			items: [
+        {
+      		type: "doc",
+      		label: "Rollkit",
+      		id: "developers/rollkit"
+    		},{
+      		type: "category",
+      		label: "Optimism",
+					link: {
+						type: "generated-index",
+					},
+					collapsed: true,
+					items: [
+						{
+							type: "doc",
+							label: "Introduction to OP Stack integration",
+              id: "developers/intro-to-op-stack"
+						},
+            {
+							type: "doc",
+              label: "Bubs testnet",
+              id: "developers/bubs-testnet",
+            },
+						{
+							type: "doc",
+							label: "Deploy a smart contract on Bubs testnet",
+              id: "developers/deploy-on-bubs"
+						},
+            {
+							type: "doc",
+              label: "Deploy a GM Portal dapp on Bubs testnet",
+              id: "developers/gm-portal-bubs",
+            },
+            // {
+            //   type: "link",
+            //   label: "Deploy a dapp with scaffold-eth",
+            //   href: "https://github.com/jcstein/scaffold-eth",
+            // },
+            {
+              type: "link",
+              label: "Deploy a dapp with thirdweb",
+              href: "https://thirdweb.com/bubs-testnet",
+            },
+            {
+							type: "doc",
+							label: "Deploy an OP Stack devnet",
+      				id: "developers/optimism-devnet"
+            },
+            {
+							type: "doc",
+							label: "Deploy an OP Stack testnet on Celestia",
+      				id: "developers/optimism"
+            },
+            // {
+            //   type: "category",
+            //   label: "Use cases",
+            //   link: {
+            //     type: "generated-index",
+            //   },
+            //   collapsed: true,
+            //   items: [
+            //     {
+            //       type: "doc",
+            //       label: "Introduction to OP Stack integration",
+            //       id: "developers/intro-to-op-stack"
+            //     },
+            //     {
+            //       type: "doc",
+            //       label: "Bubs testnet",
+            //       id: "developers/bubs-testnet",
+            //     }
+            //   ]
+            // },
+            {
+              type: "category",
+              label: "Rollups as a Service",
+              link: {
+                type: "generated-index",
+              },
+              collapsed: true,
+              items: [
+                {
+                  type: "link",
+                  label: "Caldera",
+                  href: "https://caldera.xyz",
+                },
+                // {
+                //   type: "link",
+                //   label: "Conduit (coming soon)",
+                //   href: "https://conduit.xyz",
+                // }
+              ]
+            },
+					]
+    		},{
+          type: "doc",
+          label: "Full stack modular blockchain development guide",
+          id: "developers/full-stack-modular-development-guide"
+        },{
+          type: "doc",
+          label: "IBC Relaying Guide",
+          id: "developers/ibc-relayer"
+        },{
+          type: "link",
+          label: "Sovereign SDK",
+          href: "https://github.com/Sovereign-Labs/sovereign-sdk/tree/main/examples/demo-rollup#demo-rollup",
+        },{
+          type: "link",
+          label: "Dymension",
+          href: "https://dymension.xyz/"
+        }
+			]
     },
     {
       type: "doc",
-      label: "Full stack modular blockchain development guide",
-      id: "developers/full-stack-modular-development-guide"
+      label: "Demos on Celestia",
+      id: "developers/demos",
     },
     {
       type: "doc",
@@ -376,6 +483,20 @@ const sidebars = {
       items: [
         { type: "doc", label: "Overview", id: "community/modular-fellows" },
         { type: "doc", label: "Cohort one content", id: "community/cohort-one-content" },
+      ]
+    },
+    {
+      type: "category",
+      label: "Modular Meetup Program",
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: false,
+      items: [
+        { type: "doc", label: "Introduction", id: "community/modular-meetup-intro" },
+        { type: "doc", label: "Modular Meetup Toolkit", id: "community/modular-meetup-toolkit" },
+        { type: "doc", label: "Speaker list", id: "community/speaker-list" },
+        { type: "doc", label: "Meetup guide", id: "community/modular-meetup-guide" },
       ]
     },
   ],

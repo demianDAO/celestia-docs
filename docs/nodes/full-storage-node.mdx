@@ -1,5 +1,6 @@
 ---
 sidebar_label: Full storage node
+description: Set up a Celestia full storage node.
 ---
 
 # Setting up a Celestia full storage Node
@@ -136,7 +137,7 @@ Start the Full Storage Node with a connection to a validator node's gRPC endpoin
 :::tip
 In order for access to the ability to get/submit
 state-related information, such as the ability to
-submit `PayForData` transactions, or query for the
+submit `PayForBlob` transactions, or query for the
 node's account balance, a gRPC endpoint of a validator
 (core) node must be passed as directed below.
 
@@ -156,7 +157,7 @@ You can create your key for your node by following the `cel-key` instructions [h
 
 Once you start the Full Node, a wallet key will be generated for you.
 You will need to fund that address with testnet tokens to pay for
-`PayForData` transactions.
+`PayForBlob` transactions.
 You can find the address by running the following command:
 
 ```sh
@@ -263,3 +264,9 @@ Follow the tutorial on setting up the full storage node as a background
 process with SystemD [here](./systemd.md).
 
 With that, you are now running a Celestia Full Storage Node.
+
+### Stop the full node
+
+In order to gracefully stop the full node, use `Control + C` in the
+terminal window where the node is running. Be sure to only do this once
+as the shutdown will not be instantaneous.

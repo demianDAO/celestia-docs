@@ -1,5 +1,6 @@
 ---
 sidebar_label: Validator node
+description: A tutorial for setting up a Celestia validator node.
 ---
 
 # Setting up a Celestia validator node
@@ -42,11 +43,11 @@ git clone https://github.com/celestiaorg/networks.git
 ```
 
 To initialize the network pick a "node-name" that describes your
-node. The --chain-id parameter we are using here is `mocha`. Keep in
+node. The --chain-id parameter we are using here is `mocha-3`. Keep in
 mind that this might change if a new testnet is deployed.
 
 ```sh
-celestia-appd init "node-name" --chain-id mocha
+celestia-appd init "node-name" --chain-id mocha-3
 ```
 
 Copy the `genesis.json` file. For mocha we are using:
@@ -138,7 +139,7 @@ cd $HOME
 rm -rf ~/.celestia-app/data
 mkdir -p ~/.celestia-app/data
 SNAP_NAME=$(curl -s https://snaps.qubelabs.io/celestia/ | \
-    egrep -o ">mocha.*tar" | tr -d ">")
+    egrep -o ">mocha-3.*tar" | tr -d ">")
 wget -O - https://snaps.qubelabs.io/celestia/${SNAP_NAME} | tar xf - \
     -C ~/.celestia-app/data/
 ```
@@ -237,7 +238,15 @@ txhash: <tx-hash>
 You can check if the TX hash went through using the block explorer by
 inputting the `txhash` ID that was returned.
 
-## Deploy the Celestia Node
+## Optional: Deploy the Celestia Node
+
+Running a bridge node is critical to the Celestia network as it enables
+the data availability and consensus nodes to communicate with one
+another. It is recommended to support the data availability network,
+but is not required for `celestia-app`.
+
+If you are not running a bridge node, you can skip to
+[Run a validator node](#run-a-validator-node).
 
 This section describes part 2 of Celestia Validator Node setup: running a
 Celestia Bridge Node daemon.
@@ -280,7 +289,7 @@ You have successfully set up a bridge node that is syncing with the network.
 ### Setup QGB keys
 
 This step helps get you prepared for when the Quantum Gravity Bridge
-is ready to be deployed. You would still need to go through this step
+is enabled. You would still need to go through this step
 before running a validator to configure an extra key.
 
 * `--evm-address`: This flag should contain a `0x` EVM address. Here,
@@ -358,3 +367,9 @@ txhash: <tx-hash>
 ```
 
 You should now be able to see your validator from a block explorer like [here](https://celestia.explorers.guru)
+
+## Run the QGB Orchestrator
+
+Now that the QGB will be enabled for Blockspace Race (BSR), all validators
+will need to run the QGB orchestrator to be able to sign attestations.
+To run it, please check the docs [here](https://docs.celestia.org/nodes/qgb-orchestrator/#how-to-run).

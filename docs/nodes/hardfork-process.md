@@ -1,5 +1,6 @@
 ---
 sidebar_label: Hardfork Process
+description: Overview of the Celestia hardfork process.
 ---
 
 # Celestia hardfork process
@@ -33,8 +34,8 @@ The general process can be broken down into several components:
 
 The two testnets were hardforks are deployed on are:
 
-- [Arabica](./arabica-devnet.md)
-- [Mocha](./mocha-testnet.md)
+- [Arabica](./arabica-devnet.mdx)
+- [Mocha](./mocha-testnet.mdx)
 
 ### Mocha hardfork
 

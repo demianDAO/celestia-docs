@@ -1,3 +1,8 @@
+---
+sidebar_label: Deploy a light node
+description: Instructions for deploying a Celestia Light Node.
+---
+
 # Deploy a light node
 
 ## Description
@@ -55,7 +60,7 @@ To learn more, visit the
 1. Setup Your Celestia Light Node
 2. Perform Data Availability Sampling (DAS).
 3. How to find your light Node ID is found
-  [here](https://docs.celestia.org/developers/node-gateway-docs/#post-p2pinfo).
+  [here](../../developers/node-tutorial/#get-your-node-id).
 4. Make sure that the wallet address the node uses is funded.
   To find your auto generated wallet by your node, use
   `./cel-key list --node.type light --keyring-backend test --p2p.network blockspacerace`
