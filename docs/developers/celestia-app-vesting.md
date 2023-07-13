@@ -15,11 +15,11 @@ description: 学习如何使用Celestia App生成归属帐户。
 
 ## 本地开发网络
 
-首先，下载并[安装 Celestia 应用程序](.../.../nodes/celestia-app)、
+首先，下载并[安装 Celestia 应用程序](../../nodes/celestia-app)、
 
-选择[网络和相应版本](.../.../节点/participate)
+选择[网络和相应版本](../../nodes/participate)
 
-您想使用的[网络和相应版本](.../.../节点/participate)。
+您想使用的[网络和相应版本](../../nodes/participate)。
 
 ### 设置本地开发网络
 
@@ -322,11 +322,11 @@ export TO_ADDRESS=address_of_vesting_account
 
 ### 领取测试币到你的账户
 
-前往[水龙头](https://docs.celestia.org/nodes/mocha-testnet/#mocha-testnet-faucet)并为您的原始地址提供资金。
+前往[水龙头]并为您的原始地址提供资金。
 
 ### 在 Mocha 上创建一个归属账户
 
-要在 Mocha 上创建一个归属账户，你需要一个 RPC URL 来将交易发送到交易。你可以找到一个[RPC](https://docs.celestia.org/nodes/mocha-testnet/#rpc-endpoints)。
+要在 Mocha 上创建一个归属账户，你需要一个 RPC URL 来将交易发送到交易。你可以找到一个[RPC] 列表。
 
 设置你德 RPC 地址:
 
@@ -356,7 +356,7 @@ celestia-appd tx vesting create-vesting-account $TO_ADDRESS 100000utia 168674805
 
 运行共识完整节点或验证器将避免您需要使用使用 RPC。
 
-您可以设置一个 [validator](.../.../nodes/full-consensus-node) 或 [full node](.../.../nodes/validator-node) 来执行前一部分教程。
+您可以设置一个 [validator](../../nodes/full-consensus-node) 或 [full node](../../nodes/validator-node) 来执行前一部分教程。
 
 注意：这可能需要一些时间，取决于您选择同步链状态的方式。
 
