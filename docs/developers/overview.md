@@ -1,15 +1,14 @@
 ---
-sidebar_label: Overview
-description: All things developer-related for building on top of Celestia.
+sidebar_label: 概览
+description: 在Celestia之上构建的所有与开发者相关的事物。
 ---
 
-# Developers
+# 开发人员
 
-This section contains all things developer-related for building on top
-of Celestia.
+本部分包含所有与开发者相关的内容，用于在 Celestia 之上构建开发者相关的内容。
 
-It includes:
+## 它包括
 
-* How to create A Celestia wallet
-* How to interact with the data availability API
-* How to deploy sovereign rollups with [Rollkit](https://rollkit.dev)
+- 如何创建 Celestia 钱包
+- 如何与数据可用性 API 交互
+- 如何使用[Rollkit](https://rollkit.dev)部署主权网络

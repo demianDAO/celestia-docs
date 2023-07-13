@@ -1,43 +1,40 @@
 ---
-sidebar_label: How to create a vesting account with Celestia App
-description: Learn how to generate a vesting account using Celestia App.
+sidebar_label: 如何在Celestia App创建归属帐户
+description: 学习如何使用Celestia App生成归属帐户。
 ---
 
-# How to create a vesting account with Celestia App
+# 如何在 Celestia App 创建归属帐户
+
 <!-- markdownlint-disable MD013 -->
 
-In this guide, we will learn how to create a vesting account using
-celestia-app for both a local devnet and on Mocha testnet.
+在本指南中，我们将学习如何使用 celestia-app 创建本地开发网和 Mocha 测试网的归属账户。
 
 :::tip note
-The instructions for this tutorial are for a **continuous** vesting account,
-if you'd like to make a delayed vesting account, just add the `--delayed`
-flag to your vesting transaction.
+本教程针对的是**连续**归属账户、如果您想创建一个延迟归属账户，只需在您的归属交易中添加"--delayed 标记。
 :::
 
-## Local devnet
+## 本地开发网络
 
-First, download and [install Celestia App](../../nodes/celestia-app),
-selecting the
-[network and corresponding version](../../nodes/participate)
-that you would like to use.
+首先，下载并[安装 Celestia 应用程序](.../.../nodes/celestia-app)、
 
-### Setting up the local devnet
+选择[网络和相应版本](.../.../节点/participate)
 
-#### Run the devnet
+您想使用的[网络和相应版本](.../.../节点/participate)。
 
-Next, change into the `$HOME/celestia-app` directory and
-run the single-node-devnet script.
+### 设置本地开发网络
+
+#### 运行一个本地网络
+
+接下来, 进入到 `$HOME/celestia-app` 并运行 `single-node-devnet` 的脚本.
 
 ```bash
 cd $HOME/celestia-app
 ./scripts/build-run-single-node.sh
 ```
 
-#### Save the home directory path
+#### 保存到家目录
 
-At the top of the output, you will see a path to the "Home directory",
-find yours from the output (**it will be unique every time**):
+在输出的顶部，您将看到 "主目录 "的路径、从输出中找到您的主目录（**每次都是唯一的**）：
 
 ```bash
 ./scripts/build-run-single-node.sh
@@ -45,54 +42,46 @@ Home directory: /var/folders/_8/ljj6hspn0kn09qf9fy8kdyh40000gn/T/celestia_app_XX
 --> Updating go.mod
 ```
 
-And set the location as the `CElESTIA_APP_HOME` variable. We will use this
-for the remainder of the devnet section.
+并设置位置为`CElESTIA_APP_HOME`变量。我们将在用于本地网络部分的其余部分。
 
 ```bash
 export CElESTIA_APP_HOME=/var/folders/_8/ljj6hspn0kn09qf9fy8kdyh40000gn/T/celestia_app_XXXXXXXXXXXXX.XV92a3qx
 ```
 
 :::tip note
-This does not replace the `celestia-appd` binary that was
-installed with `celestia-appd`, but builds and runs one
-in the `$HOME/celestia-app/build` directory.
+这并不会替换与`celestia-appd`一起安装的`celestia-appd`二进制文件。
+二进制文件，而是在`$HOME/celestia-app-/build`目录下构建并运行一个目录中的`celestia-appd`二进制文件。
 :::
 
-#### Check the version of the devnet
+#### 检查本地网络版本
 
-If you'd like to check the version of your local devnet, you can use:
+如果您想检查本地 devnet 的版本，可以使用：
 
 ```bash
 cd $HOME/celestia-app/build
 ./celestia-appd version
 ```
 
-#### Next steps
+#### 下一步
 
-Congratulations! You now have a private devnet running locally on your machine.
-The devnet is made up of one validator that is creating new blocks. This is the
-Celestia consensus network on your machine! The key that was created to
-run the validator also lives in a temporary directory for the devnet.
+恭喜您！您现在已经在您的机器上本地运行了一个私有的 devnet。devnet 由一个正在创建新块的验证器组成。这就是您机器上的 Celestia 共识网络！为运行验证器而创建的密钥运行验证器的密钥也存在于开发网络的临时目录中。
 
-Now you are ready to test creating a vesting account on our devnet before going
-to Mocha, a live testnet.
+现在您已经准备好在我们的开发网上测试创建一个归属账户，然后再去 Mocha，一个实时测试网络。
 
-### Setting up vesting account on devnet
+### 在 devnet 上设置归属帐户
 
-You already have one key setup, but you will need one more to create
-a vesting account.
+您已经设置了一个密钥，但您还需要一个密钥来创建归属帐户。
 
-#### Create a new key
+#### 创建新钥匙
 
-First, create a vesting key:
+首先，创建归属密钥：
 
 ```bash
 cd $HOME/celestia-app/build
 ./celestia-appd keys add vesting-key --home $CElESTIA_APP_HOME
 ```
 
-You will see the address, mnemonic, and more details about your key in the
-output:
+您将在输出中看到地址、助记词以及有关密钥的更多详细信息在输出的信息中：
 
 ```bash
 - address: celestia127fpaygehlsgjdknwvlr2mux7h5uvhkxktgkc5
@@ -101,13 +90,12 @@ output:
   type: local
 
 
-**Important** write this mnemonic phrase in a safe place.
-It is the only way to recover your account if you ever forget your password.
+**重要** 将此记忆短语写在安全的地方。如果您忘记了密码，这是恢复帐户的唯一方法。
 
 index enter egg broken ostrich duty bitter blind all car hollow coral youth early verify point void anger daring sausage decline net shove oil
 ```
 
-#### List your keys
+#### 列出你的私钥
 
 ```bash
 ./celestia-appd keys list --home $CElESTIA_APP_HOME
@@ -126,26 +114,23 @@ Output:
   type: local
 ```
 
-#### Set variables
+#### 设置变量
 
-Set the keys as varibles, using the validator address as the `FROM_ADDRESS`
-and the vesting-key as the `TO_ADDRESS`.
+将密钥设置为变量，将验证器地址作为`FROM_ADDRESS`，将 vesting-key 作为`TO_ADDRESS`和 vesting-key 作为`TO_ADDRESS`。
 
 ```bash
 export FROM_ADDRESS=celestia1adgkqcmzuxvg7x5avx8a8rjwpmxgzex3ztef6j
 export TO_ADDRESS=celestia127fpaygehlsgjdknwvlr2mux7h5uvhkxktgkc5
 ```
 
-#### Create your devnet vesting account
+#### 创建您的 devnet 归属帐户
 
-Create the vesting account with the following command:
+使用以下命令创建归属帐户：
 
 :::tip note
-The remainder of the instructions are for a **continuous** vesting account,
-if you'd like to make a delayed vesting account, use the `--delayed`
-flag.
+其余说明适用于**连续**归属账户、如果您想创建一个延迟归属账户，请使用`--delayed`标志。
 
-For example, the command to create a delayed vesting account would look like:
+例如，创建延迟归属帐户的命令如下:
 
 ```bash
 ./celestia-appd tx vesting create-vesting-account $TO_ADDRESS 100000utia 1686748051 --from $FROM_ADDRESS --gas auto --fees 100000utia --chain-id private --home $CElESTIA_APP_HOME --delayed
@@ -157,11 +142,10 @@ For example, the command to create a delayed vesting account would look like:
 ./celestia-appd tx vesting create-vesting-account $TO_ADDRESS 100000utia 1686748051 --from $FROM_ADDRESS --gas auto --fees 100000utia --chain-id private --home $CElESTIA_APP_HOME
 ```
 
-Select "Y" to choose "yes".
+选择 "Y" 之后选 "yes".
 
-:::tip Optional
-If you'd like to run the command with the `-y` flag, it will
-execute the transaction without needing to provide the "y" answer as above.
+:::tip 可选参数
+如果你想运行带有`-y`标志的命令，它将执行事务而不需要提供上面的 "y "答案。执行事务，而不需要提供上面的 "y "答案。
 
 ```bash
 ./celestia-appd tx vesting create-vesting-account $TO_ADDRESS 100000utia 1686748051 --from $FROM_ADDRESS --gas auto --fees 100000utia --chain-id private --home $CElESTIA_APP_HOME -y
@@ -214,21 +198,17 @@ tx: null
 txhash: 6093DF76DBA90F04FF63D197FC1569F04ED3DBE64081A0BBA9BAD4E69AA570D2
 ```
 
-The timestamp for the previous command is in the past, so once you create
-the vesting account, the tokens will vest. You can check your account
-balances to verify this.
+上一条命令的时间戳已经过去，所以一旦您创建了归属账户，代币就会归属。您可以检查您的账户余额来验证。
 
-#### Query the devnet vesting account details
+#### 查询 devnet 归属帐户详细信息
 
-Check that the account has been created and works as expected by querying
-the `TO_ADDRESS` account details:
+通过查询`TO_ADDRESS`账户的详细信息：
 
 ```bash
 ./celestia-appd query account $TO_ADDRESS --home $CElESTIA_APP_HOME
 ```
 
-In the output, you will notice that the account type is a
-`ContinuousVestingAccount`:
+在输出中，您会注意到账户类型是 `ContinuousVestingAccount`:
 
 ```bash
 '@type': /cosmos.vesting.v1beta1.ContinuousVestingAccount
@@ -247,15 +227,15 @@ base_vesting_account:
 start_time: "1687908352"
 ```
 
-#### Query the devnet base account details
+#### 查询 devnet 基本账户详细信息
 
-Check the `FROM_ADDRESS` account details:
+查询 `FROM_ADDRESS` 帐户详细信息：
 
 ```bash
 ./celestia-appd query account $FROM_ADDRESS --home $CElESTIA_APP_HOME
 ```
 
-In the output, you will notice the account type is `BaseAccount`:
+在这个输出中, 你将会注意到账户的类型是 `BaseAccount`:
 
 ```bash
 '@type': /cosmos.auth.v1beta1.BaseAccount
@@ -267,15 +247,15 @@ pub_key:
 sequence: "2"
 ```
 
-#### Query the balances of the devnet accounts
+#### 查询 devnet 账户余额
 
-Next, we can check the balance of the accounts:
+接下来，我们可以检查账户余额：
 
 ```bash
 ./celestia-appd query bank balances $TO_ADDRESS --home $CElESTIA_APP_HOME
 ```
 
-Output will show you the balance of the vesting account:
+输出将显示归属帐户的余额：
 
 ```bash
 balances:
@@ -290,7 +270,7 @@ pagination:
 ./celestia-appd query bank balances $FROM_ADDRESS --home $CElESTIA_APP_HOME
 ```
 
-The output will show the remaining balance of the validator:
+输出将显示验证器的剩余余额：
 
 ```bash
 balances:
@@ -301,96 +281,88 @@ pagination:
   total: "0"
 ```
 
-Congratulations! You've now made your own vesting account on a local devnet.
-Next, you can learn how to create a vesting account on Mocha Testnet.
+恭喜您！您现在已经在本地开发网上创建了自己的归属帐户。
+
+接下来，您可以学习如何在 Mocha Testnet 上创建一个归属帐户。
 
 ## Mocha
 
-In the previous section of this tutorial, we learned how to create a vesting
-account on a local devnet. In this portion of the tutorial, we'll cover how
-to set up a consensus full node and set up a vesting account on
-[Mocha Testnet](../../nodes/mocha-testnet).
+在本教程的前一部分，我们学习了如何在本地开发网中创建归属帐户。
 
-First, be sure that you have installed Celestia App for the latest
-version for Mocha Testnet on this [page](../../nodes/celestia-app).
+帐户, 在本教程的这一部分，我们将介绍如何建立一个共识完整节点，并在 `Mocha Testnet`。
 
-### Create a wallet
+首先，请确认您已在此[页面](../../nodes/celestia-app) 上安装了最新版本的 Mocha Testnet 的 Celestia 应用程序。
 
-Set the keyring backend, so you don't need to use the flag for every command:
+### 创建一个钱包
+
+设置 keyring 后台，这样就不需要在每个命令中都使用该标志：
 
 ```bash
 celestia-appd config keyring-backend test
 ```
 
-Add a new key for a full node and one for a vesting account:
+为一个完整节点添加一个新密钥，为一个归属账户添加一个新密钥：
 
 ```bash
 celestia-appd keys add origin && celestia-appd keys add vesting
 ```
 
-List the keys:
+列出所有钥匙:
 
 ```bash
 celestia-appd keys list
 ```
 
-Set your keys as variables:
+设置你的私钥环境变量:
 
 ```bash
 export FROM_ADDRESS=address_of_origin_account
 export TO_ADDRESS=address_of_vesting_account
 ```
 
-### Fund your account
+### 领取测试币到你的账户
 
-Head to the [faucet](../../nodes/mocha-testnet/#mocha-testnet-faucet),
-and fund your `origin` address.
+前往[水龙头](https://docs.celestia.org/nodes/mocha-testnet/#mocha-testnet-faucet)并为您的原始地址提供资金。
 
-### Create a vesting account on Mocha
+### 在 Mocha 上创建一个归属账户
 
-To create a vesting account on Mocha, you will need an RPC URL to send
-the transaction to. You can find an RPC [here](../../nodes/mocha-testnet/#rpc-endpoints).
+要在 Mocha 上创建一个归属账户，你需要一个 RPC URL 来将交易发送到交易。你可以找到一个[RPC](https://docs.celestia.org/nodes/mocha-testnet/#rpc-endpoints)。
 
-Set your RPC URL:
+设置你德 RPC 地址:
 
 ```bash
 export RPC_URL=https://rpc-mocha.pops.one:443
 ```
 
-We will use a few flags in our vesting command that are different than the
-devnet version. Since we aren't using our own validator or full node, we will
-use an RPC URL.
+我们将在 vesting 命令中使用一些不同于
 
-We also need to declare the chain ID as `mocha`.
+devnet 版本不同。由于我们没有使用自己的验证器或完整节点，我们将使用 RPC URL。
 
-View the help menu for vesting to understand these flags more:
+我们还需要将链 ID 声明为`mocha`。
+
+请查看 vesting 的帮助菜单以进一步了解这些标识：
 
 ```bash
 celestia-appd tx vesting --help
 ```
 
-Here's an example command to set up the vesting account:
+下面是一个设置归属帐户的命令示例：
 
 ```bash
 celestia-appd tx vesting create-vesting-account $TO_ADDRESS 100000utia 1686748051 --from $FROM_ADDRESS --gas 100000 --fees 100000utia --node $RPC_URL --chain-id mocha --delayed
 ```
 
-### Optional: Set up a consensus full node or validator
+### 可选： 设置共识完整节点或验证器
 
-Running a consensus full node or validator will prevent you from needing
-to use an RPC.
+运行共识完整节点或验证器将避免您需要使用使用 RPC。
 
-You can set up a [validator](../../nodes/full-consensus-node) or [full node](../../nodes/validator-node) for the previous portion
-of the tutorial.
+您可以设置一个 [validator](.../.../nodes/full-consensus-node) 或 [full node](.../.../nodes/validator-node) 来执行前一部分教程。
 
-Note: this may take some time depending on how you choose to sync the
-state of the chain.
+注意：这可能需要一些时间，取决于您选择同步链状态的方式。
 
-### Optional: Change your client.toml
+### 可选:改变你的 client.toml 配置
 
-If you edit your client configuration in `client.toml`, you can set both the
-chain ID and the node RPC URL. This will prevent you from needing
-to run each flag for every command line that you use.
+如果您在`client.toml`中编辑您的客户端配置，您可以同时设置链 ID 和节点 RPC URL。这将避免您需要运行每个标识。
 
 ```toml
 # This is a TOML config file.
@@ -412,13 +384,11 @@ node = "tcp://rpc-mocha.pops.one:443"
 broadcast-mode = "sync"
 ```
 
-## Notes
+## 笔记
 
-Not all vesting accounts can be created with a message, some need to be
-set at genesis. Learn more
-[here](https://docs.cosmos.network/v0.46/modules/auth/05_vesting.html#note).
+并不是所有的归属帐户都可以用信息创建，有些需要在创始时设置。
+了解更多[查看](https://docs.cosmos.network/v0.46/modules/auth/05_vesting.html#note).
 
-## Conclusion
+## 总结
 
-Congratulations! You've learned how to create a local devnet, create a
-vesting account on it, and how to make a vesting account on the Mocha Testnet!
+恭喜您！您已经学会了如何创建一个本地开发网，在上面创建一个和如何在 Mocha Testnet 上创建归属帐户！

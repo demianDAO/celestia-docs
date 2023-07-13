@@ -1,35 +1,32 @@
 ---
-sidebar_label: Overview
-description: An overview on how to participate in the Celestia network.
+sidebar_label: 概览
+description: 如何参与Celestia网络的概述。
 ---
 
-# Overview to running nodes on Celestia
+# 在 Celestia 上运行节点概述
 
-There are many ways you can participate in the Celestia network.
+您可以通过多种方式参与 Celestia 网络。
 
-Celestia node operators can run several options on the network.
+Celestia 节点运营商可以在网络上运行几种选项。
 
-Consensus:
+共识：
 
-* [Validator Node](./validator-node.md): This type of node participates
-in consensus by producing and voting on blocks.
-* [Full Consensus Node](./full-consensus-node.md): A `celestia-app` Full Node
-  to sync blockchain history.
+- [验证节点](./validator-node.md): 这种类型的节点通过产生区块和对区块进行投票来参与共识。
 
-Data Availability:
+- [完全共识节点](./full-consensus-node.md)： 一个 "celestia-app"全节点同步区块链历史。
 
-* [Bridge Node](./bridge-node.mdx): This node bridges blocks between the
-  Data-Availability network and the Consensus network.
-* [Full Storage Node](./full-storage-node.mdx): This node stores all
-  the data but does not connect to Consensus.
-* [Light Node](./light-node.mdx): Light clients conduct data availability
-  sampling on the Data Availability network.
+数据可用性：
 
-You can learn more about how to setup each different node by going through
-each tutorial guide.
+- [桥接节点](./bridge-node.mdx)： 该节点在数据可用性网络和共识网络之间的桥接。
+
+- [全存储节点](./full-storage-node.mdx)： 该节点存储所有该节点存储所有数据，但不连接共识。
+
+- [轻节点](./light-node.mdx)： 轻节点在数据可用性在数据可用性网络上进行数据可用性采样。
+
+您可以通过每个教程指南了解更多关于如何设置每个不同节点的信息。
+
+每个教程指南。
 
 ![Banner](/img/node-requirements.jpg)
 
-Please provide any feedback on the tutorials and guides. If you notice
-a bug or issue, feel free to make a Pull Request or write up a Github
-Issue ticket!
+请对教程和指南提供任何反馈意见。如果您发现 bug 或问题，请随时提交 Pull Request 或在 Github 上写下问题单！

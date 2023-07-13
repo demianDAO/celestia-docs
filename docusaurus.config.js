@@ -15,6 +15,7 @@ const config = {
   title: '建设模块化区块链.',
   tagline: '',
   url: 'https://celestia.wiki',
+  // @ts-ignore
   baseUrl: process.env.BASE_URL,
   trailingSlash: true,
   onBrokenLinks: 'throw',
