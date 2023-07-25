@@ -1,160 +1,88 @@
 ---
-sidebar_label: Data Availability FAQ
-description: Frequently asked questions related to Data Availability.
+sidebar_label: 数据可用性常见问题
+description: 与数据可用性相关的常见问题。
 ---
 
-# Data availability FAQ
+# 数据可用性常见问题
 
-## What is data availability?
+## 什么是数据可用性？
 
-Data availability answers the question, has this data been published?
-Specifically, a node will verify data availability when it receives a
-new block that is getting added to the chain. The node will attempt to
-download all the transaction data for the new block to verify availability.
-If the node can download all the transaction data, then it successfully
-verified data availability, proving that the block data was actually
-published to the network.
+数据可用性回答的问题是：该数据是否已发布？具体来说，当节点收到一个新区块时，节点将验证数据的可用性。节点会尝试下载新区块的所有交易数据，以验证其可用性。如果节点能下载所有交易数据，那么它就成功地验证了数据的可用性，证明区块数据确实已发布到网络。
 
 ![Modular VS Monolithic](/img/concepts/data-availability-faq/Data-availability.png)
 
-As you’ll see, modular blockchains like Celestia employ other primitives
-that allow nodes to verify data availability more efficiently. Data
-availability is critical to the security of any blockchain because it
-ensures that anyone can inspect the ledger of transactions and verify it.
-Data availability becomes particularly problematic when scaling blockchains.
-As the blocks get bigger, it becomes impractical for normal users to
-download all the data, and therefore users can no longer verify the chain.
+正如你所看到的那样，像 Celestia 这样的模块化区块链采用了其他原语使节点能够更有效地验证数据的可用性。数据可用性对任何区块链的安全性都至关重要，因为它可以数据可用性对任何区块链的安全性都至关重要，因为它能确保任何人都能检查交易账本并对其进行验证。在扩展区块链时，数据可用性尤其成问题。随着区块变大，普通用户下载所有数据变得不切实际。下载所有数据变得不切实际，因此用户无法再验证区块链。
 
-## What is the data availability problem?
+## 什么是数据可用性问题？
 
-The problem with data availability occurs when the transaction data for
-a newly proposed block cannot be downloaded and verified. This type of
-attack by a block producer is called a data withholding attack, which
-sees the block producer withhold transaction data of a new block.
+当无法下载和验证新提出区块的交易数据时，就会出现数据可用性问题。区块生产者的这种攻击称为数据扣留攻击，即区块生产者扣留新区块的交易数据。
 
-Since transaction data is withheld, nodes cannot update to the latest state.
-Such an attack can have numerous consequences, from halting a chain to
-gaining the ability to steal funds. The severity of the consequences will
-depend on the type of blockchain (L1 or L2) and whether data availability
-is kept on-chain or off-chain. The data availability problem commonly
-arises around L2 scaling solutions like rollups and validiums.
+由于交易数据被扣留，节点无法更新到最新状态。这种攻击会产生多种后果，从停止链到获得窃取资金的能力。后果的严重程度取决于区块链的类型（L1 或 L2），以及数据可用性是保留在链上还是链下。数据可用性问题通常出现在 L2 扩展解决方案中，如 rollups 和 validiums。
 
-## How do nodes verify data availability in Celestia?
+## 在 Celestia 中，节点如何验证数据的可用性？
 
-In most blockchains, nodes that verify data availability do so by downloading
-all transaction data for a block. If they are able to download all the data,
-they have verified its availability. In Celestia, light nodes have access to
-a new mechanism to verify data availability without needing to download all
-the data for a block. This new primitive for verifying data availability is
-called data availability sampling.
+在大多数区块链中，验证数据可用性的节点是通过下载一个区块的所有交易数据来实现的。如果它们能够下载所有数据，它们就验证了数据的可用性。在 Celestia 中，轻节点可以使用一种新的机制来验证数据的可用性，而无需下载一个区块的所有数据。这种验证数据可用性的新方法称为数据可用性采样。
 
-## What is data availability sampling?
+## 什么是数据可用性采样？
 
-Data availability sampling is a mechanism for light nodes to verify data
-availability without having to download all data for a block. Data availability
-sampling (DAS) works by having light nodes conduct multiple rounds of random
-sampling for small portions of block data. As a light node completes more
-rounds of sampling for block data, it increases its confidence that data is
-available. Once the light node successfully reaches a predetermined confidence
-level (e.g. 99%) it will consider the block data as available.
+数据可用性采样是轻节点验证数据可用性的一种机制，无需下载区块的所有数据。数据可用性采样（DAS）的工作原理是让轻节点对块数据的一小部分进行多轮随机采样。随着轻节点完成更多轮区块数据采样，它就会增加对数据可用性的信心。一旦轻节点成功达到预定的可信度（如 99%），它就会认为数据块数据是可用的。
 
-Want a simpler explanation? Check out [this thread](https://twitter.com/nickwh8te/status/1559977957195751424)
-on how data availability sampling is like flipping a coin.
+想要更简单的解释？请查看此[主题](https://twitter.com/nickwh8te/status/1559977957195751424)，了解数据可用性采样如何像掷硬币一样。
 
 <!-- markdownlint-disable MD013 -->
-## What are some of the security assumptions that Celestia makes for data availability sampling?
+
+## Celestia 为数据可用性采样做出了哪些安全假设？
+
 <!-- markdownlint-disable MD013 -->
 
-Celestia assumes that there is a minimum number of light nodes that are
-conducting data availability sampling for a given block size. This assumption
-is necessary so that a full node can reconstruct an entire block from the
-portions of data light nodes sampled and stored. The amount of light nodes
-that are needed will depend on the block size - for bigger blocks more light
-nodes are assumed to be running.
+Celestia 假定在给定的数据块大小下，进行数据可用性采样的轻节点数量最少。这一假设是必要的，这样全节点才能从轻节点采样和存储的数据部分重建整个数据块。所需的轻节点数量取决于数据块的大小--对于较大的数据块，假定有更多的轻节点在运行。
 
-A second notable assumption that is made by light nodes is that they are
-connected to at least one honest full node. This ensures that they can receive
-fraud proofs for incorrectly erasure coded blocks. If a light node is not
-connected to an honest full node, such as during an eclipse attack, it can’t
-verify that the block is improperly constructed.
+轻节点的第二个值得注意的假设是，它们至少与一个诚实的全节点相连。这可以确保它们能接收到错误擦除编码区块的欺诈证明。如果一个轻节点没有连接到一个诚实的全节点，例如在日蚀攻击期间，它就无法验证区块是否被错误地构建。
 
-## Why is block reconstruction necessary for security?
+## 为什么需要对数据块进行安全重构？
 
-In Celestia, blocks need to be erasure coded so that there is redundant
-data to aid the data availability sampling process. However, nodes tasked
-with erasure coding the data could do so incorrectly. Since Celestia uses
-fraud proofs to verify that erasure coding is incorrect, the full block
-data is needed to generate a bad encoding fraud proof.
+在 Celestia 中，需要对数据块进行擦除编码，以便有冗余数据帮助数据可用性采样过程。但是，负责对数据进行擦除编码的节点可能会做错。由于 Celestia 使用欺诈证明来验证擦除编码是否错误，因此需要完整的块数据来生成错误编码欺诈证明。
 
-There could be a situation where validators only provide data to light nodes
-and not full nodes. If the full nodes don’t have the ability to reconstruct the
-full block from the portions of data stored by light nodes, they wouldn’t be
-able to generate a bad encoding fraud proof.
+可能出现的情况是，验证器只向轻节点而不是全节点提供数据。如果全节点没有能力从轻节点存储的部分数据中重建整个区块，它们就无法生成错误编码欺诈证明。
 
-## What is data storage?
+## 什么是数据存储？
 
-Data storage is concerned with the ability to store and access past transaction data.
+数据存储涉及存储和访问过去交易数据的能力。
 
 ![Modular VS Monolithic](/img/concepts/data-availability-faq/Data-storage.png)
 
-Data storage and retrieval is needed for multiple purposes, such as:
+- 数据存储和检索有多种用途，例如:
+  - 读取以前的交易信息
+  - 同步节点
+  - 索引和提供交易数据
+  - 检索 NFT 信息
 
-- Reading the information of a previous transaction
-- Syncing a node
-- Indexing and serving transaction data
-- Retrieving NFT information
+## 数据存储的问题是什么？
 
-## What is the problem around data storage?
+数据存储的问题在于能否存储过去的交易数据并在以后成功检索。无法检索历史交易数据会导致一些问题，例如用户无法访问其过去的交易信息，或者节点无法从创世同步。幸运的是，有关存储和访问过去数据的假设很薄弱。用户只需访问区块链历史的单个副本，就能获取历史交易数据。换句话说，数据存储安全是 N 个诚实假设中的 1 个。
 
-The issue with data storage is whether past transaction data can be stored and
-successfully retrieved at a later time. The inability to retrieve historical
-transaction data can cause problems, such as users being unable to access
-information about their past transactions or nodes that cannot sync from genesis.
-Luckily, the assumptions around storing and accessing past data are weak.
-Only a single copy of a blockchain’s history needs to be accessible for users
-to gain access to historical transaction data. In other words, data storage
-security is a 1 of N honesty assumption.
+## 数据可用性与数据存储有何区别？
 
-## What is the difference between data availability and data storage?
+数据可用性是指验证新区块的交易数据是否公开和可用。相比之下，数据存储涉及存储和访问旧区块中过去的交易数据。
 
-Data availability is about verifying that transaction data for a new block is
-public and available. In contrast, data storage involves storing and accessing
-past transaction data from old blocks.
+## 区块链状态与此有何关系？
 
-## Where does blockchain state fit into this?
+到目前为止，我们一直在讨论交易数据，但区块链状态是一个相关话题。状态不同于交易数据。具体来说，状态就像是网络的当前快照，其中包括账户余额、智能合约余额和验证器集信息。因状态大小而产生的问题在本质上与围绕数据可用性和可检索性产生的问题不同。
 
-Up until now it’s been all about transaction data, but blockchain state is a
-related topic. The state is different from transaction data. Specifically, the
-state is like a current snapshot of the network, which includes information
-about account balances, smart contract balances, and validator set info.
-[Problems that arise](https://forum.celestia.org/t/the-state-growth-problem-in-a-modular-blockchain-ecosystem/325)
-from the size of the state are different in nature than those around
-data availability and retrievability.
+## 为什么 Celestia 不鼓励存储历史数据？
 
-## Why doesn’t Celestia incentivize storage of historical data?
+大多数区块链都不鼓励存储数据，因为区块链不应该负责保证过去的数据永远可检索。此外，数据存储问题只需要单方存储并为用户提供数据，这并不是一个强有力的问题。因此，Celestia 的目的是提供一种安全、可扩展的方式来验证数据的可用性。一旦数据被验证为可用，存储和检索历史数据的工作就留给了需要数据的其他实体。幸运的是，外界有天然的动力来存储并向用户提供历史数据。
 
-Most blockchains don’t incentivize storage of data because it shouldn’t be the
-responsibility of a blockchain to guarantee past data will be retrievable forever.
-In addition, the data storage problem only requires a single party to store and
-provide the data for users, which is not a strong problem. As such, Celestia’s
-purpose is to provide a secure and scalable way to verify the availability of data.
-Once data has been verified as available, the job of storing and retrieving
-historical data is left up to other entities that require the data. Luckily, there
-are natural incentives for outside parties to store and serve historical data to users.
+## 如果没有奖励，谁会存储历史数据？
 
-## Who may store historical data if there is no reward?
+- 有多种类型的参与者可能会存储历史数据。其中包括:
+  - 提供过去交易数据访问权限的区块探索者。
+  - 提供过去数据 API 查询的索引器。
+  - 某些流程需要历史数据的应用程序或进程。
+  - 希望保证能够访问其交易历史记录的用户。
 
-There are multiple types of actors that may be likely to store historical data.
-Some of those include:
+## 区块链可以做些什么来更有力地保证数据的可检索性？
 
-- Block explorers that provide access to past transaction data.
-- Indexers that provide API queries for past data.
-- Applications or rollups that require historical data for certain processes.
-- Users that want to guarantee that they will have access to their transaction history.
+根据节点存储的交易数据量和提供的数据请求量奖励节点（一些数据存储区块链就是这种情况，如 Filecoin）。
 
-## What are some things blockchains can do to provide stronger assurances of data retrievability?
-
-- Reward nodes based on the amount of transaction data they store and requests for data
-they serve (this is the case with some data storage blockchains, like [Filecoin](https://filecoin.io)).
-- Publish transaction data onto a data storage blockchain that incentives storing and
-serving requests for historical data.
+将交易数据发布到数据存储区块链上，鼓励存储和服务历史数据请求。

@@ -1,169 +1,82 @@
 ---
-sidebar_label: Celestia's data availability layer
-description: Celestia's Data Availability layer and its key features.
+sidebar_label: Celestia 的数据可用性层
+description: Celestia 的数据可用性层及其主要特性。
 ---
 
-# Celestia's data availability layer
+# Celestia 的数据可用性层
 
-Celestia is a data availability (DA) layer that provides a
-scalable solution to the [data availability problem](https://coinmarketcap.com/alexandria/article/what-is-data-availability).
-Due to the permissionless nature of the blockchain networks,
-a DA layer must provide a mechanism for the execution and settlement
-layers to check in a trust-minimized way whether transaction data is indeed available.
+Celestia 是一个数据可用性（DA）层，为数据可用性问题提供了一个可扩展的解决方案。由于区块链网络的无权限性质，数据可用性层必须为执行层和结算层提供一种机制，以信任最小化的方式检查交易数据是否确实可用。
 
-Two key features of Celestia's DA layer are [data availability sampling](https://blog.celestia.org/celestia-mvp-release-data-availability-sampling-light-clients)
-(DAS) and [Namespaced Merkle trees](https://github.com/celestiaorg/nmt) (NMTs).
-Both features are novel blockchain scaling solutions: DAS enables light
-nodes to verify data availability without needing to download an entire block;
-NMTs enable execution and settlement layers on Celestia to download transactions
-that are only relevant to them.
+Celestia 的 DA 层有两个关键功能，即数据可用性采样（DAS）和命名间隔默克尔树（NMT）。这两个功能都是新颖的区块链扩展解决方案： DAS 使轻节点无需下载整个区块就能验证数据的可用性；NMT 使 Celestia 上的执行层和结算层能够下载只与它们相关的交易。
 
-## Data availability sampling (DAS)
+## 数据可用性采样 (DAS)
 
-In general, light nodes download only block headers that contain
-commitments (i.e., Merkle roots) of the block data (i.e., the list of transactions).
+一般来说，轻节点只下载包含块数据（即交易列表）的承诺（即默克尔树根）的块头。
 
-To make DAS possible, Celestia uses a 2-dimensional Reed-Solomon
-encoding scheme to encode the block data: every block data is split
-into k × k chunks, arranged in a k × k matrix, and extended with parity
-data into a 2k × 2k extended matrix by applying multiple times Reed-Solomon encoding.
+为使 DAS 成为可能，Celestia 使用二维里德-所罗门编码方案对块数据进行编码：每个块数据被分割成 k × k 块，排列在 k × k 矩阵中，并通过应用多次里德-所罗门编码将奇偶校验数据扩展为 2k × 2k 扩展矩阵。
 
-Then, 4k separate Merkle roots are computed for the rows and columns
-of the extended matrix; the Merkle root of these Merkle roots is used
-as the block data commitment in the block header.
+然后，为扩展矩阵的行和列计算 4k 个单独的默克尔树根；这些默克尔树根的默克尔树根被用作块标头中的块数据承诺。
 
 ![2D Reed-Soloman (RS) Encoding](/img/concepts/reed-solomon-encoding.png)
 
-To verify that the data is available, Celestia light nodes are sampling
-the 2k × 2k data chunks.
+为了验证数据是否可用，Celestia 轻节点对 2k × 2k 数据块进行采样。
 
-Every light node randomly chooses a set of unique coordinates in the
-extended matrix and queries full nodes for the data chunks and the
-corresponding Merkle proofs at those coordinates. If light nodes
-receive a valid response for each sampling query, then there is a
-[high probability guarantee](https://github.com/celestiaorg/celestia-node/issues/805#issuecomment-1150081075)
-that the whole block's data is available.
+每个轻节点在扩展矩阵中随机选择一组唯一的坐标，并在这些坐标上查询全节点的数据块和相应的默克尔树证明。如果轻节点每次采样查询都能收到有效响应，那么就能高概率地保证整个数据块的数据可用。
 
-Additionally, every received data chunk with a correct Merkle proof
-is gossiped to the network. As a result, as long as the Celestia light
-nodes are sampling together enough data chunks (i.e., at least k × k unique chunks),
-the full block can be recovered by honest full nodes.
+此外，每个接收到的带有正确默克尔树证明的数据块都会被传播到网络上。因此，只要 Celestia 轻节点一起采样足够多的数据块（即至少有 k × k 个唯一数据块），诚实的完整节点就能恢复整个数据块。
 
-For more details on DAS, take a look at the [original paper](https://arxiv.org/abs/1809.09044).
+有关 DAS 的更多详情，请参阅[原始论文](https://arxiv.org/abs/1809.09044)。
 
-### Scalability
+### 可扩展性
 
-DAS enables Celestia to scale the DA layer. DAS can be performed by
-resource-limited light nodes since each light node only samples a small
-portion of the block data. The more light nodes there are in the network,
-the more data they can collectively download and store.
+DAS 使 Celestia 能够扩展 DA 层。DAS 可由资源有限的轻节点执行，因为每个轻节点只采样块数据的一小部分。网络中的轻节点越多，它们能共同下载和存储的数据就越多。
 
-This means that increasing the number of light nodes performing DAS allows
-for larger blocks (i.e., with more transactions), while still keeping DAS
-feasible for resource-limited light nodes. However, in order to validate
-block headers, Celestia light nodes need to download the 4k intermediate
-Merkle roots.
+这意味着，增加执行 DAS 的轻节点数量，就能实现更大的区块（即更多的事务），同时仍能保持 DAS 对资源有限的轻节点的可行性。不过，为了验证区块头，Celestia 轻节点需要下载 4k 中间 Merkle 根。
 
-For a block data size of $n^2$ bytes, this means that every light node must
-download O(n) bytes. Therefore, any improvement in the bandwidth capacity
-of Celestia light nodes has a quadratic effect on the throughput of Celestia's
-DA layer.
+对于 $n^2$ 字节的块数据大小，这意味着每个轻节点必须下载 O(n) 字节。因此，Celestia 轻节点带宽容量的任何提高都会对 Celestia DA 层的吞吐量产生二次影响。
 
-### Fraud proofs of incorrectly extended data
+### 错误扩展数据的欺诈证明
 
-The requirement of downloading the 4k intermediate Merkle roots is a
-consequence of using a 2-dimensional Reed-Solomon encoding scheme. Alternatively,
-DAS could be designed with a standard (i.e., 1-dimensional) Reed-Solomon encoding,
-where the original data is split into k  chunks and extended with k additional
-chunks of parity data. Since the block data commitment is the Merkle root of the
-2k resulting data chunks, light nodes no longer need to download O(n) bytes to
-validate block headers.
+下载 4k 个中间默克尔树的要求是使用二维里德-所罗门编码方案的结果。作为替代方案，DAS 可采用标准（即一维）里德-所罗门编码，将原始数据分成 k 个数据块，并用 k 个额外的奇偶校验数据块进行扩展。由于块数据承诺是 2k 个生成数据块的默克尔树，因此轻节点不再需要下载 O(n) 字节来验证块头。
 
-The downside of the standard Reed-Solomon encoding is dealing with malicious
-block producers that generate the extended data incorrectly.
+标准里德-所罗门编码的缺点是要处理恶意生成错误扩展数据的区块生产者。
 
-This is possible as __Celestia does not require a majority of the consensus
-(i.e., block producers) to be honest to guarantee data availability.__
-Thus, if the extended data is invalid, the original data might not be
-recoverable, even if the light nodes are sampling sufficient unique chunks
-(i.e., at least k for a standard encoding and k × k for a 2-dimensional encoding).
+这是可能的，因为 Celestia 并不要求大多数共识（即区块生产者）是诚实的，以保证数据的可用性。因此，如果扩展数据无效，即使轻节点采样了足够多的唯一块（即标准编码至少有 k 个，二维编码至少有 k × k 个），原始数据也可能无法恢复。
 
-As a solution, _Fraud Proofs of Incorrectly Generated Extended Data_ enable
-light nodes to reject blocks with invalid extended data. Such proofs require
-reconstructing the encoding and verifying the mismatch. With standard Reed-Solomon
-encoding, this entails downloading the original data, i.e., $n^2$ bytes.
-Contrastingly, with 2-dimensional Reed-Solomon encoding, only O(n) bytes are
-required as it is sufficient to verify only one row or one column of the
-extended matrix.
+作为一种解决方案，"不正确生成扩展数据的欺诈证明" 能让轻节点拒绝包含无效扩展数据的数据块。这种证明需要重建编码并验证不匹配。对于标准的里德-所罗门编码，这需要下载原始数据，即 $n^2$ 个字节。相比之下，二维里德-所罗门编码只需要 O(n) 字节，因为只需验证扩展矩阵的一行或一列即可。
 
-## Namespaced Merkle Trees (NMTs)
+## 命名空间默克尔树 - NMT
 
-Celestia partitions the block data into multiple namespaces, one for
-every application (e.g., rollup) using the DA layer. As a result, every
-application needs to download only its own data and can ignore the data
-of other applications.
+Celestia 使用 DA 层将块数据划分为多个命名空间，每个应用程序（如 Rollup）都有一个命名空间。因此，每个应用程序只需下载自己的数据，而无需理会其他应用程序的数据。
 
-For this to work, the DA layer must be able to prove that the provided
-data is complete, i.e., all the data for a given namespace is returned.
-To this end, Celestia is using Namespaced Merkle Trees (NMTs).
+要做到这一点，DA 层必须能够证明所提供的数据是完整的，即返回了给定命名空间的所有数据。为此，Celestia 正在使用命名空间默克尔树（NMT）。
 
-An NMT is a Merkle tree with the leafs ordered by the namespace identifiers
-and the hash function modified so that every node  in the tree includes the
-range of namespaces of all its descendants. The following figure shows an
-example of an NMT with height three (i.e., eight data chunks). The data is
-partitioned into three namespaces.
+NMT 是一棵默克尔树，树叶按命名空间标识符排序，哈希函数经过修改，使树上的每个节点都包含其所有子节点的命名空间范围。下图显示了高度为 3（即 8 个数据块）的 NMT 示例。数据被划分为三个命名空间。
 
 ![Namespaced Merkle Tree](/img/concepts/nmt.png)
 
-When an application requests the data for namespace 2, the DA layer must
-provide the data chunks `D3`, `D4`, `D5`, and `D6` and the nodes `N2`, `N8`
-and `N7` as proof (note that the application already has the root `N14` from
-the block header).
+当应用程序请求命名空间 2 的数据时，DA 层必须提供数据块 D3、D4、D5 和 D6 以及节点 N2、N8 和 N7 作为证明（注意，应用程序已从块标头中获得了根 N14）。
 
-As a result, the application is able to check that the provided data is part
-of the block data. Furthermore, the application can verify that all the data
-for namespace 2 was provided. If the DA layer provides for example only the
-data chunks `D4` and `D5`, it must also provide nodes `N12` and `N11` as proofs.
-However, the application can identify that the data is incomplete by checking
-the namespace range of the two nodes, i.e., both `N12` and `N11` have descendants
-part of namespace 2.
+因此，应用程序能够检查所提供的数据是否是块数据的一部分。此外，应用程序还可验证是否提供了命名空间 2 的所有数据。例如，如果 DA 层只提供数据块 D4 和 D5，则还必须提供节点 N12 和 N11 作为证明。但是，应用程序可以通过检查这两个节点的命名空间范围（即 N12 和 N11 都有属于命名空间 2 的子节点）来识别数据是否不完整。
 
-For more details on NMTs, take a look at the [original paper](https://arxiv.org/abs/1905.09274).
+有关 NMT 的更多详情，请参阅[原论文](https://arxiv.org/abs/1905.09274)。
 
-## Building a PoS blockchain for DA
+## 为 DA 构建 PoS 区块链
 
-### Providing data availability
+### 提供数据可用性
 
-The Celestia DA layer consists of a PoS blockchain. Celestia is dubbing this
-blockchain as the [`celestia-app`](https://github.com/celestiaorg/celestia-app),
-an application that provides transactions to facilitate the DA layer and is built
-using [Cosmos SDK](https://docs.cosmos.network/main). The following figure
-shows the main components of `celestia-app`.
+Celestia DA 层由一个 PoS 区块链组成。Celestia 将这个区块链称为 celestia-app，它是一个提供交易以促进 DA 层的应用程序，使用 Cosmos SDK 构建。下图显示了 celestia-app 的主要组件。
 
 ![Main components of `celestia-app`](/img/concepts/celestia-app.png)
 
-`celestia-app` is built on top of [celestia-core](https://github.com/celestiaorg/celestia-core),
-a modified version of the [Tendermint consensus algorithm](https://arxiv.org/abs/1807.04938).
-Among the more important changes to vanilla Tendermint, celestia-core:
+- celestia-app 构建在 Tendermint 共识算法的改进版 celestia-core 之上。与普通 Tendermint 相比，celestia-core 更为重要的变化包括:
+  - 启用块数据擦除编码（使用二维里德-所罗门编码方案）。
+  - 用命名间隔 默克尔树取代 Tendermint 用来存储块数据的常规默克尔树，使上层（即执行和结算）只能下载所需的数据（更多详情，请参阅下面描述用例的部分）。
 
-- Enables the erasure coding of block data (using the 2-dimensional Reed-Solomon
-  encoding scheme).
-- Replaces the regular Merkle tree used by Tendermint to store block data with
-  a [Namespaced Merkle tree](https://github.com/celestiaorg/nmt) that enables
-  the above layers (i.e., execution and settlement) to only download the needed
-  data (for more details, see the section below describing use cases).
+有关 Tendermint 变化的更多详情，请参阅 ADR。请注意，Celestia 的核心节点仍在使用 Tendermint 的点对点网络。
 
-For more details on the changes to Tendermint, take a look at the
-[ADRs](https://github.com/celestiaorg/celestia-core/tree/v0.34.x-celestia/docs/celestia-architecture).
-Notice that celestia-core nodes are still using the Tendermint p2p network.
+与 Tendermint 类似，celestia-core 通过 ABCI++ 连接到应用层（即状态机），这是 ABCI（应用区块链接口）的重大演进。
 
-Similarly to Tendermint, celestia-core is connected to the application layer
-(i.e., the state machine) by [ABCI++](https://github.com/tendermint/tendermint/tree/master/spec/abci%2B%2B),
-a major evolution of [ABCI](https://github.com/tendermint/tendermint/tree/master/spec/abci)
-(Application Blockchain Interface).
+celestia-app 状态机是执行 PoS 逻辑和实现 DA 层治理所必需的。
 
-The `celestia-app` state machine is necessary to execute the PoS logic and to
-enable the governance of the DA layer.
-
-However, the `celestia-app` is data-agnostic -- the state machine neither
-validates nor stores the data that is made available by the `celestia-app`.
+然而，celestia-app 与数据无关 -- 状态机既不验证也不存储 celestia-app 提供的数据。
